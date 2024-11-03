@@ -15,13 +15,13 @@ It clearly shows them what they need to do today and prompts them to take action
 
 ## Screen elements
 
-| No. | Element                         | 	UI Description                                 | UI Component         |
-|-----|:--------------------------------|:------------------------------------------------|:---------------------|
-| 1   | Top bar                         | Show application name and theme changing button | TopAppBar            |
-| 2   | Greetings message               | Display a time-appropriate greeting message.    | TextView             |
-| 3   | Pined habit status              | List of pinned habits                           | LazyColumn           |
-| 4   | Remaining today's tasks message | Number of tasks remaining today                 | IconButton           |
-| 5   | Actual remaining today's tasks  | A list of the actual tasks                      | FloatingActionButton |
+| No. | Element                         | 	UI Description                                 | UI Component |
+|-----|:--------------------------------|:------------------------------------------------|:-------------|
+| 1   | Top bar                         | Show application name and theme changing button | TopAppBar    |
+| 2   | Greetings message               | Display a time-appropriate greeting message.    | Text         |
+| 3   | Pined habit status              | List of pinned habits                           | LazyColumn   |
+| 4   | Remaining today's tasks message | Number of tasks remaining today                 | Text         |
+| 5   | Actual remaining today's tasks  | A list of the actual tasks                      | LazyColum    |
 
 ## Features
 
@@ -42,10 +42,10 @@ It clearly shows them what they need to do today and prompts them to take action
 3. Bottom navigation
    * Define 3 screens to bottom navigation bar
      * Home, All habits and All tasks
-   * If user tap the different icon which currently not selected, change the screen content
+   * If user click the different icon which currently not selected, change the screen content
 
 4. Theme change (Common feature)
-   * If user tap the upper right icon, the screen theme will change to inverted theme (light -> dark/dark -> light) 
+   * If user click the upper right icon, the screen theme will change to inverted theme (light -> dark/dark -> light) 
 
 ## On error occurred
 
