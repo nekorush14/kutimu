@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Kutimu</string>
+    <string name="description_dark_mode">Change to dark mode</string>
+    <string name="description_light_mode">Change to light mode</string>
+    <string name="screen_home">home</string>
+    <string name="screen_all_habits">All habits</string>
+    <string name="screen_all_tasks">All tasks</string>
 </resources>
