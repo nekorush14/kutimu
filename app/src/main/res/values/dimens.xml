@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_padding_medium">8.dp</dimen>
+    <dimen name="icon_size_small">32.dp</dimen>
+    <dimen name="icon_size_medium">42.dp</dimen>
+    <dimen name="icon_size_large">72.dp</dimen>
+    <dimen name="card_padding_small">4.dp</dimen>
+    <dimen name="card_elevation_default">2.dp</dimen>
+    <dimen name="text_padding_small">4.dp</dimen>
+    <dimen name="text_width_large">250.dp</dimen>
+    <dimen name="list_padding_small">4.dp</dimen>
+    <dimen name="list_padding_medium">16.dp</dimen>
+    <dimen name="box_height_medium">92.dp</dimen>
+</resources>
