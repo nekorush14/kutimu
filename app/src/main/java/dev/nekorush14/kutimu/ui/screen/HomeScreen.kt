@@ -11,7 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Inbox
@@ -64,7 +65,14 @@ fun HomeScreen(
         tasks.count { task -> !task.isCompleted && task.frequency == TaskFrequency.Daily }
 
     Column(
-        modifier = modifier.padding(dimensionResource(R.dimen.list_padding_small))
+        modifier = modifier
+            .padding(
+                start = dimensionResource(R.dimen.list_padding_small),
+                end = dimensionResource(R.dimen.list_padding_small)
+            )
+            .verticalScroll(
+                rememberScrollState()
+            )
     ) {
         Text(
             text = greetingMessage,
@@ -138,12 +146,12 @@ fun HomeScreen(
         }
         // Task list block
         if (tasks.isNotEmpty()) {
-            LazyColumn(
+            Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                items(tasks.size) { index ->
+                repeat(tasks.size) { index ->
                     TaskListItem(task = tasks[index])
                     HorizontalDivider(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -273,8 +281,11 @@ fun TaskListItem(
             imageVector = task.categoryIcon,
             contentDescription = null,
             modifier = Modifier
-                .size(dimensionResource(R.dimen.icon_size_small))
-                .padding(end = dimensionResource(R.dimen.card_padding_small))
+                .size(dimensionResource(R.dimen.icon_size_medium))
+                .padding(
+                    start = dimensionResource(R.dimen.list_icon_padding_small),
+                    end = dimensionResource(R.dimen.list_icon_padding_small)
+                )
         )
         Column {
             if (task.linkedHabit != null) {

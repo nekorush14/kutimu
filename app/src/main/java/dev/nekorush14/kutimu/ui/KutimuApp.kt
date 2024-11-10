@@ -2,7 +2,10 @@ package dev.nekorush14.kutimu.ui
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.List
@@ -86,7 +89,8 @@ sealed class KutimuAppScreen(
  * App main composable.
  *
  * [KutimuApp] is the main composable for the Kutimu app.
- * The app is divided into three screens: [KutimuAppScreen.Home], [KutimuAppScreen.AllHabits], and [KutimuAppScreen.AllTasks].
+ * The app is divided into three screens: [KutimuAppScreen.Home], [KutimuAppScreen.AllHabits],
+ * and [KutimuAppScreen.AllTasks].
  * Each screen can navigate to the other screens using the [KutimuBottomNavigationBar].
  *
  * @param viewModel A [ViewModel] for the app.
@@ -127,14 +131,17 @@ fun KutimuApp(
                     KutimuAppScreen.AllTasks,
                 )
             )
-        }
+        },
+        modifier = Modifier
+            .windowInsetsPadding(WindowInsets.safeDrawing)
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
         NavHost(
             navController = navController,
             startDestination = KutimuAppScreen.Home.route,
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding),
         ) {
             // Bottom navigation screens
             composable(route = homeScreen) {
