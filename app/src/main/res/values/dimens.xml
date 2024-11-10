@@ -9,4 +9,6 @@
     <dimen name="text_padding_small">4.dp</dimen>
     <dimen name="text_width_large">250.dp</dimen>
     <dimen name="list_padding_small">4.dp</dimen>
+    <dimen name="list_padding_medium">16.dp</dimen>
+    <dimen name="box_height_medium">92.dp</dimen>
 </resources>

@@ -10,4 +10,7 @@
     <string name="message_good_evening">Good evening.</string>
     <string name="message_up_coming_tracking_tasks">Up coming tracking tasks</string>
     <string name="message_today_tasks_remaining">Today %1$s tasks remaining</string>
+    <string name="message_all_tasks_completed">All tasks completed!</string>
+    <string name="message_no_tasks_remaining">Today no tasks remainings!</string>
+    <string name="message_no_pinned_habits">No pinned habit.</string>
 </resources>

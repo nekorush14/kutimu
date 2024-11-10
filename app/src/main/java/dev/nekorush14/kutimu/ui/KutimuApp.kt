@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -105,6 +104,7 @@ fun KutimuApp(
     val homeScreen = KutimuAppScreen.Home.route
     val allHabitsScreen = KutimuAppScreen.AllHabits.route
     val allTasksScreen = KutimuAppScreen.AllTasks.route
+    val currentRoute = currentRoute(navController)
 
     Scaffold(
         topBar = {
@@ -116,6 +116,11 @@ fun KutimuApp(
         bottomBar = {
             KutimuBottomNavigationBar(
                 navController = navController,
+                onBottomNavIconClick = {
+                    if (currentRoute == KutimuAppScreen.Home.route) {
+                        viewModel.updateGreetingMessage()
+                    }
+                },
                 items = listOf(
                     KutimuAppScreen.Home,
                     KutimuAppScreen.AllHabits,
@@ -136,6 +141,7 @@ fun KutimuApp(
                 HomeScreen(
                     habits = uiState.habits,
                     tasks = uiState.tasks,
+                    greetingMessage = stringResource(uiState.greetingMessage),
                 )
             }
             composable(route = allHabitsScreen) {
@@ -199,6 +205,7 @@ fun KutimuTopAppBar(
 fun KutimuBottomNavigationBar(
     navController: NavHostController,
     items: List<KutimuAppScreen>,
+    onBottomNavIconClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
@@ -226,6 +233,10 @@ fun KutimuBottomNavigationBar(
                 },
                 selected = isSelected,
                 onClick = {
+                    // bottom nav custom logic
+                    onBottomNavIconClick()
+
+                    // navigate to the screen
                     navController.navigate(screen.route) {
                         // Pop up to the root destination of the graph to
                         // avoid duplicate screen instances

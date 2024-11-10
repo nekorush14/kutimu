@@ -1,10 +1,12 @@
 package dev.nekorush14.kutimu.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,6 +23,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +32,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.LineBreak
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import dev.nekorush14.kutimu.R
@@ -68,14 +72,45 @@ fun HomeScreen(
                 fontWeight = MaterialTheme.typography.displaySmall.fontWeight,
                 fontSize = MaterialTheme.typography.displaySmall.fontSize
             ),
-            modifier = Modifier.padding(start = dimensionResource(R.dimen.text_padding_small))
+            modifier = Modifier.padding(
+                start = dimensionResource(R.dimen.text_padding_small),
+                bottom = dimensionResource(R.dimen.text_padding_small)
+            )
         )
-        repeat(habits.size) { index ->
-            HabitCard(habit = habits[index])
+        // Habit block
+        if (habits.isNotEmpty()) {
+            repeat(habits.size) { index ->
+                HabitCard(habit = habits[index])
+            }
+        } else {
+            Surface(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = MaterialTheme.shapes.medium,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(R.dimen.card_padding_small))
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(dimensionResource(R.dimen.box_height_medium))
+                        .padding(dimensionResource(R.dimen.list_padding_small))
+                ) {
+                    Text(
+                        text = stringResource(R.string.message_no_pinned_habits),
+                        textAlign = TextAlign.Center,
+                        style = TextStyle(
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                        ),
+                    )
+                }
+            }
         }
+        // Upcoming tracking tasks block
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -91,23 +126,45 @@ fun HomeScreen(
                 )
             )
             Text(
-                text = stringResource(R.string.message_today_tasks_remaining, remainingTaskCount),
+                text = if (remainingTaskCount > 0) stringResource(
+                    R.string.message_today_tasks_remaining,
+                    remainingTaskCount
+                ) else stringResource(R.string.message_no_tasks_remaining),
                 style = TextStyle(
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize
                 )
             )
         }
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            items(tasks.size) { index ->
-                TaskListItem(task = tasks[index])
-                HorizontalDivider(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.list_padding_small))
+        // Task list block
+        if (tasks.isNotEmpty()) {
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                items(tasks.size) { index ->
+                    TaskListItem(task = tasks[index])
+                    HorizontalDivider(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = dimensionResource(R.dimen.list_padding_small))
+                    )
+                }
+            }
+        } else {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(dimensionResource(R.dimen.list_padding_small))
+            ) {
+                Text(
+                    text = stringResource(R.string.message_all_tasks_completed),
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                    ),
                 )
             }
         }
@@ -205,7 +262,12 @@ fun TaskListItem(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                top = dimensionResource(R.dimen.list_padding_small),
+                bottom = dimensionResource(R.dimen.list_padding_small)
+            )
     ) {
         Icon(
             imageVector = task.categoryIcon,
@@ -267,6 +329,18 @@ private fun HomeScreenPreview() {
         HomeScreen(
             habits = DataSource.habits,
             tasks = DataSource.tasks,
+            greetingMessage = "Good morning!"
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenWithoutHabitAndTaskPreview() {
+    KutimuTheme {
+        HomeScreen(
+            habits = emptyList(),
+            tasks = emptyList(),
             greetingMessage = "Good morning!"
         )
     }

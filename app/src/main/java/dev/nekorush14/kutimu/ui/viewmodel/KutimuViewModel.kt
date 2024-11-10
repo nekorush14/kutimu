@@ -1,6 +1,5 @@
 package dev.nekorush14.kutimu.ui.viewmodel
 
-import android.provider.ContactsContract.Data
 import androidx.lifecycle.ViewModel
 import dev.nekorush14.kutimu.R
 import dev.nekorush14.kutimu.data.HomeUiState
@@ -30,6 +29,7 @@ class KutimuViewModel : ViewModel() {
             habits = DataSource.habits,
             tasks = DataSource.tasks,
             remainingTaskCount = DataSource.tasks.size - DataSource.tasks.count { it.isCompleted },
+            greetingMessage = getGreetingMessage()
         )
     }
 
@@ -38,7 +38,7 @@ class KutimuViewModel : ViewModel() {
      *
      * @return Greeting message string resource ID
      */
-    fun getGreetingMessage(): Int {
+    private fun getGreetingMessage(): Int {
         // Return greeting message based on the current time
         val currentTime = System.currentTimeMillis()
         return when {
@@ -46,5 +46,14 @@ class KutimuViewModel : ViewModel() {
             currentTime < 18 * 60 * 60 * 1000 -> R.string.message_good_afternoon
             else -> R.string.message_good_evening
         }
+    }
+
+    /**
+     * Update greeting message in UI state
+     */
+    fun updateGreetingMessage() {
+        _uiState.value = _uiState.value.copy(
+            greetingMessage = getGreetingMessage()
+        )
     }
 }
