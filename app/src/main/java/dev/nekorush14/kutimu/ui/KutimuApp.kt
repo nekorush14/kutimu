@@ -22,12 +22,16 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -35,7 +39,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.nekorush14.kutimu.R
+import dev.nekorush14.kutimu.ui.screen.HomeScreen
 import dev.nekorush14.kutimu.ui.theme.KutimuTheme
+import dev.nekorush14.kutimu.ui.viewmodel.KutimuViewModel
 
 const val HOME_ROUTE = "home"
 const val ALL_HABITS_ROUTE = "all_habits"
@@ -84,13 +90,14 @@ sealed class KutimuAppScreen(
  * The app is divided into three screens: [KutimuAppScreen.Home], [KutimuAppScreen.AllHabits], and [KutimuAppScreen.AllTasks].
  * Each screen can navigate to the other screens using the [KutimuBottomNavigationBar].
  *
+ * @param viewModel A [ViewModel] for the app.
  * @param navController NavHostController for the app.
  * @param onThemeIconClick Callback for when the theme icon is clicked.
  * @param isDarkMode Whether the app is in dark mode.
  */
 @Composable
 fun KutimuApp(
-    // Viewmodel is here
+    viewModel: KutimuViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
     onThemeIconClick: () -> Unit = {},
     isDarkMode: Boolean = false,
@@ -117,6 +124,8 @@ fun KutimuApp(
             )
         }
     ) { innerPadding ->
+        val uiState by viewModel.uiState.collectAsState()
+
         NavHost(
             navController = navController,
             startDestination = KutimuAppScreen.Home.route,
@@ -124,7 +133,10 @@ fun KutimuApp(
         ) {
             // Bottom navigation screens
             composable(route = homeScreen) {
-                // HomeScreen()
+                HomeScreen(
+                    habits = uiState.habits,
+                    tasks = uiState.tasks,
+                )
             }
             composable(route = allHabitsScreen) {
                 // AllHabitsScreen()
@@ -153,7 +165,7 @@ fun KutimuTopAppBar(
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.app_name)
+                text = stringResource(R.string.app_name),
             )
         },
         modifier = modifier,

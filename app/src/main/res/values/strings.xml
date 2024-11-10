@@ -5,4 +5,9 @@
     <string name="screen_home">home</string>
     <string name="screen_all_habits">All habits</string>
     <string name="screen_all_tasks">All tasks</string>
+    <string name="message_good_morning">Good Morning!</string>
+    <string name="message_good_afternoon">Good Afternoon!</string>
+    <string name="message_good_evening">Good evening.</string>
+    <string name="message_up_coming_tracking_tasks">Up coming tracking tasks</string>
+    <string name="message_today_tasks_remaining">Today %1$s tasks remaining</string>
 </resources>

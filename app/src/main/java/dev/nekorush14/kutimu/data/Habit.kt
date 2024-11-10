@@ -9,13 +9,15 @@ data class Habit(
     /** Unique ID of the habit. */
     val id: Long,
     /** Title of the habit. */
-    val title: Int,
+    val title: String,
     /** Description of the habit. */
-    val description: Int,
+    val description: String,
     /** Frequency of the habit. */
     val frequency: HabitFrequency,
     /** Icon of the habit. */
     val category: HabitCategory,
+    /** Icon image of the habit. */
+    val categoryIcon: ImageVector,
     /** Count of completed sub-tasks for this habit. */
     val completeCount: Int,
     /** Pin status of the habit. */
