@@ -3,8 +3,9 @@ package dev.nekorush14.kutimu.ui
 import android.content.res.Configuration
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -12,24 +13,21 @@ import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.ModeNight
 import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
@@ -95,15 +93,11 @@ sealed class KutimuAppScreen(
  *
  * @param viewModel A [ViewModel] for the app.
  * @param navController NavHostController for the app.
- * @param onThemeIconClick Callback for when the theme icon is clicked.
- * @param isDarkMode Whether the app is in dark mode.
  */
 @Composable
 fun KutimuApp(
     viewModel: KutimuViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
-    onThemeIconClick: () -> Unit = {},
-    isDarkMode: Boolean = false,
 ) {
     val homeScreen = KutimuAppScreen.Home.route
     val allHabitsScreen = KutimuAppScreen.AllHabits.route
@@ -112,10 +106,7 @@ fun KutimuApp(
 
     Scaffold(
         topBar = {
-            KutimuTopAppBar(
-                isDarkMode = isDarkMode,
-                onThemeIconClick = onThemeIconClick,
-            )
+            KutimuTopAppBar()
         },
         bottomBar = {
             KutimuBottomNavigationBar(
@@ -133,7 +124,8 @@ fun KutimuApp(
             )
         },
         modifier = Modifier
-            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.displayCutout)
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
@@ -141,7 +133,7 @@ fun KutimuApp(
             navController = navController,
             startDestination = KutimuAppScreen.Home.route,
             modifier = Modifier
-                .padding(innerPadding),
+                .padding(innerPadding)
         ) {
             // Bottom navigation screens
             composable(route = homeScreen) {
@@ -164,15 +156,11 @@ fun KutimuApp(
 /**
  * Top app bar for the Kutimu app.
  *
- * @param isDarkMode Whether the app is in dark mode.
- * @param onThemeIconClick Callback for when the theme icon is clicked.
  * @param modifier Modifier to be applied to the top app bar.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KutimuTopAppBar(
-    isDarkMode: Boolean = false,
-    onThemeIconClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     CenterAlignedTopAppBar(
@@ -182,29 +170,7 @@ fun KutimuTopAppBar(
             )
         },
         modifier = modifier,
-        actions = {
-            if (isDarkMode) {
-                IconButton(
-                    content = {
-                        Icon(
-                            imageVector = Icons.Outlined.LightMode,
-                            contentDescription = stringResource(R.string.description_dark_mode)
-                        )
-                    },
-                    onClick = onThemeIconClick
-                )
-            } else {
-                IconButton(
-                    content = {
-                        Icon(
-                            imageVector = Icons.Outlined.ModeNight,
-                            contentDescription = stringResource(R.string.description_light_mode)
-                        )
-                    },
-                    onClick = onThemeIconClick
-                )
-            }
-        }
+        actions = {}
     )
 }
 
@@ -275,28 +241,21 @@ fun currentRoute(navController: NavHostController): String? {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun KutimuTopAppBarPreview() {
-    val configuration = LocalConfiguration.current
-    val isDarkMode =
-        configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     KutimuTheme {
-        KutimuTopAppBar(
-            isDarkMode = isDarkMode,
-            onThemeIconClick = {}
-        )
+        KutimuTopAppBar()
     }
 }
 
-@Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showSystemUi = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showSystemUi = true)
+@Preview(device = "spec:width=891dp,height=411dp", showSystemUi = true)
 @Composable
 private fun KutimuAppScreenPreview() {
-    val configuration = LocalConfiguration.current
-    val isDarkMode =
-        configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     KutimuTheme {
-        KutimuApp(
-            isDarkMode = isDarkMode,
-            onThemeIconClick = {}
-        )
+        Surface (
+            modifier = Modifier.fillMaxSize()
+        ) {
+            KutimuApp()
+        }
     }
 }
