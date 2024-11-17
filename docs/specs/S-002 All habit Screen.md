@@ -42,9 +42,11 @@ Deleting a habit will perform at register/edit sheet screen.
         * Home, All habits and All tasks
     * If user click the different icon which currently not selected, change the screen content
 
-4. Theme change (Common feature)
-    * If user click the upper right icon, the screen theme will change to inverted theme (light ->
-      dark/dark -> light)
+4. ~~Theme change (Common feature)~~
+   * ~~If user click the upper right icon, the screen theme will change to inverted theme (light ->
+     dark/dark -> light)~~
+   * For some reason, this feature will postpone until design theme management will defined between
+     device and app.
 
 ## On error occurred
 
