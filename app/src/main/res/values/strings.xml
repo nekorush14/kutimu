@@ -13,4 +13,7 @@
     <string name="message_all_tasks_completed">All tasks completed!</string>
     <string name="message_no_tasks_remaining">Today no tasks remainings!</string>
     <string name="message_no_pinned_habits">No pinned habit.</string>
+    <string name="content_description_button_add_habit">Add new habit</string>
+    <string name="label_button_add_habit">Habit</string>
+    <string name="message_current_habits">Current habits</string>
 </resources>

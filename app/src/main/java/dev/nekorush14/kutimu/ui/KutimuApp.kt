@@ -39,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.nekorush14.kutimu.R
+import dev.nekorush14.kutimu.ui.screen.AllHabitsScreen
 import dev.nekorush14.kutimu.ui.screen.HomeScreen
 import dev.nekorush14.kutimu.ui.theme.KutimuTheme
 import dev.nekorush14.kutimu.ui.viewmodel.KutimuViewModel
@@ -138,13 +139,18 @@ fun KutimuApp(
             // Bottom navigation screens
             composable(route = homeScreen) {
                 HomeScreen(
-                    habits = uiState.habits,
+                    habits = uiState.habits.filter { habit -> habit.isPined },
                     tasks = uiState.tasks,
                     greetingMessage = stringResource(uiState.greetingMessage),
                 )
             }
             composable(route = allHabitsScreen) {
-                // AllHabitsScreen()
+                AllHabitsScreen(
+                    habits = uiState.habits,
+                    onHabitClick = {},
+                    onPinClick = { habitId -> viewModel.toggleHabitPinedState(habitId) },
+                    onFabClick = {},
+                )
             }
             composable(route = allTasksScreen) {
                 // AllTasksScreen()
@@ -252,7 +258,7 @@ private fun KutimuTopAppBarPreview() {
 @Composable
 private fun KutimuAppScreenPreview() {
     KutimuTheme {
-        Surface (
+        Surface(
             modifier = Modifier.fillMaxSize()
         ) {
             KutimuApp()

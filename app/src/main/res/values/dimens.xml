@@ -14,4 +14,7 @@
     <dimen name="list_icon_padding_small">8.dp</dimen>
     <dimen name="list_icon_padding_medium">16.dp</dimen>
     <dimen name="box_height_medium">92.dp</dimen>
+    <dimen name="fab_padding">16.dp</dimen>
+    <dimen name="label_padding_small">4.dp</dimen>
+    <dimen name="label_padding_medium">8.dp</dimen>
 </resources>
