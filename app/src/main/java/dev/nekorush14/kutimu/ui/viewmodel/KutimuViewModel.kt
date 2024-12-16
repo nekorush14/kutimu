@@ -6,6 +6,7 @@ import dev.nekorush14.kutimu.data.HomeUiState
 import dev.nekorush14.kutimu.data.local.DataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class KutimuViewModel : ViewModel() {
 
@@ -55,5 +56,23 @@ class KutimuViewModel : ViewModel() {
         _uiState.value = _uiState.value.copy(
             greetingMessage = getGreetingMessage()
         )
+    }
+
+    /**
+     * Toggle the pined status of habit which has specified ID.
+     *
+     * @param id ID of the task to update.
+     */
+    fun toggleHabitPinedState(id: Long) {
+        _uiState.update { currentState ->
+            val updatedHabits = currentState.habits.map { habit ->
+                if (habit.id == id) {
+                    habit.copy(isPined = !habit.isPined)
+                } else {
+                    habit
+                }
+            }
+            currentState.copy(habits = updatedHabits)
+        }
     }
 }
